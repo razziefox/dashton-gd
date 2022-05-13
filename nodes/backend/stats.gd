@@ -132,8 +132,21 @@ func _process(_delta):
 			if get_tree().change_scene("res://scenes/game.tscn") != 0:
 				print("scene is missing!")
 		
-		# makes gameover text visible
+		# sets gameover label to be visible
 		$Gameover.visible = true
+		
+		# checks if game is running on mobile
+		if ifMobile() == true:
+			
+			# set mobile gameover text to be visible
+			$Gameover/mobile.visible = true
+			
+		else:
+			
+			# set desktop gameover text to be visible
+			$Gameover/desktop.visible = true
+		
+		pass
 		
 		# sets multiplier to 1, stopping further movement
 		multiplier = 1
