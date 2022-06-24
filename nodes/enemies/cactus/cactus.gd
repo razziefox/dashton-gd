@@ -1,29 +1,26 @@
 extends Area2D
 
-# creates a new random number generator and set it to rng variable
-var rng = RandomNumberGenerator.new()
+# sets the core node to core variable
+onready var core = get_node("/root/Core")
 
-# sets stats node to stats variable
-onready var stats = get_node("/root/game/stats")
+# sets game node to game variable
+onready var game = get_node(core.fetch_game())
+
 
 func _ready():
-	
-	# randomize seed for random function
-	rng.randomize()
 	
 	# uses cactus_reset() function to reset the cactus
 	cactus_reset()
 	
 	pass
 
-
 func _process(delta):
 	
-	# checks if isPlaying variable from stats node is true
-	if stats.isPlaying == true:
+	# checks if the game state is either 1 or 2 (playing or gameover)
+	if game.state == 1 || game.state == 2:
 		
-		# moves cactus based off speed and multiplier variable from stats node
-		self.position.x = self.position.x - ((stats.speed*stats.multiplier) * delta)
+		# moves cactus based off speed and multiplier variable from game node
+		self.position.x = self.position.x - ((game.speed*game.multiplier) * delta)
 		
 		pass
 	
@@ -39,7 +36,7 @@ func _process(delta):
 func cactus_reset():
 	
 	# randomizes the x position
-	self.position.x = (rng.randf_range(300, 380))
+	self.position.x = (core.rng.randf_range(300, 380))
 	
 	pass
 
@@ -49,7 +46,7 @@ func _on_Cactus_body_entered(body):
 	# checks if the body colliding with balloon is named "Player"
 	if body.name == "Player":
 		
-		# sets isGameover variable from stats to true
-		stats.isGameover = true
+		# runs the player_hit() function from the player node
+		body.player_hit()
 	
 	pass

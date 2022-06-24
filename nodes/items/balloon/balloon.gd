@@ -1,15 +1,15 @@
 extends Node2D
 
-# creates a new random number generator and set it to rng variable
-var rng = RandomNumberGenerator.new()
+# sets core node to core variable
+onready var core = get_node("/root/Core")
 
-# sets stats node to stats variable
-onready var stats = get_node("/root/game/stats")
+# sets game node to game variable
+onready var game = get_node(core.fetch_game())
+
+# sets popped variable to false
+var popped = false
 
 func _ready():
-	
-	# randomize seed for random function
-	rng.randomize()
 	
 	# uses balloon_reset() function to reset the balloon
 	balloon_reset()
@@ -19,10 +19,10 @@ func _ready():
 func _process(delta):
 	
 	# checks if isPlaying variable from stats node is true
-	if stats.isPlaying == true:
+	if game.state == 1:
 		
 		# moves balloon based off speed and multiplier variable from stats node
-		self.position.x = self.position.x - ((stats.speed*stats.multiplier) * delta)
+		self.position.x = self.position.x - ((game.speed*game.multiplier) * delta)
 	
 	# checks if position is less then -128
 	if (self.position.x) < -128:
@@ -37,11 +37,14 @@ func balloon_reset():
 	
 	# resets the x position and randomizes y position
 	self.position.x += (128*4)
-	self.position.y = (rng.randf_range(8, 104))
+	self.position.y = (core.rng.randf_range(8, 104))
 	
 	# plays idle animation
 	$Area2D/AnimatedSprite.play("idle")
 	$AnimationPlayer.play()
+	
+	# sets popped variable to false
+	popped = false
 	
 	pass
 
@@ -53,18 +56,23 @@ func balloon_pop():
 	
 	# plays pop animation
 	$Area2D/AnimatedSprite.play("pop")
+	
+	# plays 'pop' soundfx
 	$Pop.play()
 	
 	# use addPoint() function from stats node to add a point
-	stats.addPoint()
+	game.addPoint()
+	
+	# sets popped variable to true
+	popped = true
 	
 	pass
 
 # function for when body has entered area2d
 func _on_Area2D_body_entered(body):
 	
-	# checks if the body colliding with balloon is named "Player"
-	if body.name == "Player":
+	# checks if the body colliding with balloon is named "Player" and popped variable isn't true
+	if body.name == "Player" and popped != true:
 		
 		# use balloon_pop() function
 		balloon_pop()

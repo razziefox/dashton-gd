@@ -1,24 +1,23 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://nodes/chunks/flat-floor.tscn" type="PackedScene" id=1]
-[ext_resource path="res://assets/background.png" type="Texture" id=2]
+[ext_resource path="res://assets/sprites/background/sky.png" type="Texture" id=2]
 [ext_resource path="res://nodes/player/player.tscn" type="PackedScene" id=3]
 [ext_resource path="res://nodes/enemies/cactus/cactus.tscn" type="PackedScene" id=4]
-[ext_resource path="res://nodes/backend/stats.tscn" type="PackedScene" id=5]
 [ext_resource path="res://nodes/items/balloon/balloon.tscn" type="PackedScene" id=6]
-[ext_resource path="res://assets/fonts/pico-8.ttf" type="DynamicFontData" id=7]
+[ext_resource path="res://nodes/backend/GUI.tscn" type="PackedScene" id=7]
+[ext_resource path="res://scenes/game.gd" type="Script" id=8]
 [ext_resource path="res://nodes/enemies/bird/hawk.tscn" type="PackedScene" id=9]
 
-[sub_resource type="DynamicFont" id=1]
-size = 5
-font_data = ExtResource( 7 )
-
 [node name="game" type="Node2D"]
+script = ExtResource( 8 )
 __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="Background" type="ColorRect" parent="."]
+[node name="background" type="CanvasLayer" parent="."]
+
+[node name="Background Color" type="ColorRect" parent="background"]
 margin_right = 256.0
 margin_bottom = 144.0
 color = Color( 0.133333, 0.12549, 0.203922, 1 )
@@ -26,20 +25,19 @@ __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="Sky" type="Sprite" parent="."]
+[node name="Sky" type="Sprite" parent="background"]
 position = Vector2( 128, 25 )
 texture = ExtResource( 2 )
 __meta__ = {
 "_edit_lock_": true
 }
 
-[node name="Player" parent="." instance=ExtResource( 3 )]
+[node name="player" type="CanvasLayer" parent="."]
+
+[node name="Player" parent="player" instance=ExtResource( 3 )]
 position = Vector2( 44, 116 )
 
-[node name="chunks" type="Node2D" parent="."]
-__meta__ = {
-"_edit_lock_": true
-}
+[node name="chunks" type="CanvasLayer" parent="."]
 
 [node name="Floor_1" parent="chunks" instance=ExtResource( 1 )]
 
@@ -49,10 +47,7 @@ position = Vector2( 128, 0 )
 [node name="Floor_3" parent="chunks" instance=ExtResource( 1 )]
 position = Vector2( 256, 0 )
 
-[node name="enemies" type="Node2D" parent="."]
-__meta__ = {
-"_edit_lock_": true
-}
+[node name="enemies" type="CanvasLayer" parent="."]
 
 [node name="Hawk" parent="enemies" instance=ExtResource( 9 )]
 position = Vector2( 329, 64 )
@@ -60,10 +55,7 @@ position = Vector2( 329, 64 )
 [node name="Cactus" parent="enemies" instance=ExtResource( 4 )]
 position = Vector2( 297, 116 )
 
-[node name="items" type="Node2D" parent="."]
-__meta__ = {
-"_edit_lock_": true
-}
+[node name="items" type="CanvasLayer" parent="."]
 
 [node name="balloons" type="Node2D" parent="items"]
 __meta__ = {
@@ -73,17 +65,4 @@ __meta__ = {
 [node name="Balloon" parent="items/balloons" instance=ExtResource( 6 )]
 position = Vector2( 260, 66 )
 
-[node name="GUI" type="Control" parent="."]
-margin_right = 40.0
-margin_bottom = 40.0
-
-[node name="score" type="Label" parent="GUI"]
-visible = false
-margin_left = 3.0
-margin_top = 3.0
-margin_right = 46.0
-margin_bottom = 8.0
-custom_fonts/font = SubResource( 1 )
-text = "score: 0"
-
-[node name="stats" parent="." instance=ExtResource( 5 )]
+[node name="GUI" parent="." instance=ExtResource( 7 )]

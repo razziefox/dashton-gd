@@ -46,12 +46,11 @@ position = Vector2( 0, 3.94505 )
 script = ExtResource( 5 )
 
 [node name="Area2D" type="Area2D" parent="."]
-position = Vector2( 0, -2.9992 )
+position = Vector2( 0, -2.02922 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Area2D"]
 frames = SubResource( 1 )
 animation = "idle"
-frame = 1
 playing = true
 __meta__ = {
 "_edit_lock_": true

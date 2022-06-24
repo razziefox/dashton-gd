@@ -3,17 +3,17 @@ extends Area2D
 # sets speed variable to 160
 var speed = 160
 
-# creates a new random number generator and set it to rng variable
-var rng = RandomNumberGenerator.new()
+# sets core node to core variable
+onready var core = get_node("/root/Core")
 
-# sets stats and balloon nodes to stats and balloon variable
-onready var stats = get_node("/root/game/stats")
-onready var balloon = get_node_or_null("/root/game/items/balloons/Balloon")
+# sets game node to game variable
+onready var game = get_node(core.fetch_game())
+
+# sets balloon node to balloon variable
+onready var balloon = get_node_or_null(core.fetch_node("items/balloons/Balloon"))
+
 
 func _ready():
-	
-	# randomize seed for random function
-	rng.randomize()
 	
 	# reset the hawks position
 	hawk_reset()
@@ -22,11 +22,11 @@ func _ready():
 
 func _process(delta):
 	
-	# checks if isPlaying from stats node is true
-	if stats.isPlaying == true:
+	# checks if the game state is either 1 or 2 (playing or gameover)
+	if game.state == 1 || game.state == 2:
 		
 		# update hawks position to make it move
-		self.position.x = self.position.x - ((speed*stats.multiplier) * delta)
+		self.position.x = self.position.x - ((speed*game.multiplier) * delta)
 		
 		pass
 
@@ -45,7 +45,7 @@ func hawk_reset():
 	self.position.x += (128*3)
 	
 	# randomizes the hawks y-axis
-	self.position.y = (rng.randf_range(8, 116))
+	self.position.y = (core.rng.randf_range(8, 116))
 	
 	pass
 
@@ -56,7 +56,7 @@ func _on_Hawk_body_entered(body):
 	# checks if the bodies name is "player"
 	if body.name == "Player":
 		
-		# set isGameover from stats node to true
-		stats.isGameover = true
+		# runs the player_hit() function from the player node
+		body.player_hit()
 		
 	pass

@@ -22,6 +22,10 @@ config/icon="res://icon.png"
 config/macos_native_icon="res://assets/icons/desktop/macos.icns"
 config/windows_native_icon="res://assets/icons/desktop/icon.ico"
 
+[autoload]
+
+Core="*res://scripts/core.gd"
+
 [display]
 
 window/size/width=256
@@ -32,6 +36,10 @@ window/dpi/allow_hidpi=true
 window/handheld/orientation="sensor_landscape"
 window/stretch/mode="2d"
 window/stretch/aspect="keep"
+
+[editor_plugins]
+
+enabled=PoolStringArray(  )
 
 [input]
 
@@ -75,4 +83,5 @@ common/enable_pause_aware_picking=true
 
 [rendering]
 
+vram_compression/import_etc=true
 environment/default_environment="res://default_env.tres"

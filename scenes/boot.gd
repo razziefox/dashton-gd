@@ -3,6 +3,7 @@ extends Node2D
 # sets step variable to 0
 var step = 0
 
+
 func _ready():
 	
 	# sets timer to 0.3 seconds and starts it
@@ -35,9 +36,27 @@ func _on_Timer_timeout():
 			
 		2:
 			
-			# loads game scene
+			# stops the timer
+			$Timer.stop()
+			
+			# attempt to load game scene
 			if get_tree().change_scene("res://scenes/game.tscn") != 0:
-				print("scene is missing!")
+				
+				# if the game fails to load the scene
+				print("ERROR: scene that was attempted to be loaded is missing!!")
+			
+				# makes the error sprite visible
+				$Error.visible = true
+				
+				# sets background color to red
+				$Background.color = "#ac3232"
+				
+				# checks if errorsfx is playing
+				if $errorsfx.playing != true:
+					
+					# play errorsfx
+					$errorsfx.play()
+				
 	
 	# adds 1 to step variable, showing that it has moved to the next step
 	step += 1
