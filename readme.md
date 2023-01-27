@@ -5,7 +5,7 @@ An endless runner style game about dodging varies birds and cactus while popping
 
 # Downloads
 You may download the game through these storefronts:
-* [itch.io](https://razzie-dev.itch.io/dashton/)
+* [itch.io](https://razziefox.itch.io/dashton/)
 * [Apple Appstore](https://apps.apple.com/us/app/dashton/id1621968919)
 
 # Building
