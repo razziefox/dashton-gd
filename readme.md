@@ -1,4 +1,4 @@
-# dashton
+# dashton-gd
 An endless runner style game about dodging varies birds and cactus while popping as much balloons as possible!
 
 ![screenshot]
